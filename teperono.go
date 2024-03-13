@@ -13,9 +13,10 @@ import (
 func main() {
 	fmt.Println("YADEBIL")
 	l1 := getLinesFromFile("input.txt")
+	file, _ := os.OpenFile("output.txt", os.O_RDWR|os.O_TRUNC, 0600)
+	defer file.Close()
 	for _, text := range l1 {
-		file, _ := os.OpenFile("output.txt", os.O_APPEND|os.O_WRONLY, 0600)
-		defer file.Close()
+
 		fmt.Println(kalDestroyer3000(text))
 
 		result, err := evaluateRPN(kalDestroyer3000V2UnichoshitelGovnaPlusTerminatorFekaliy(convertToRPN(getTokens(kalDestroyer3000(text)))))
@@ -29,6 +30,7 @@ func main() {
 		file.WriteString(result1)
 		file.WriteString("\n")
 	}
+
 }
 
 func getLinesFromFile(adress string) []string {

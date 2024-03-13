@@ -22,8 +22,13 @@ func (stack *Stack[T]) Peek() T {
 }
 
 func (stack *Stack[T]) Pop() T {
-	element := stack.elements[len(stack.elements)-1]
-	stack.elements = stack.elements[:len(stack.elements)-1]
+	var element T
+	if !stack.IsEmpty() {
+		element := stack.elements[len(stack.elements)-1]
+		stack.elements = stack.elements[:len(stack.elements)-1]
+		return element
+	}
+
 	return element
 }
 
