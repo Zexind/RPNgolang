@@ -75,12 +75,12 @@ func getPriority(token string) int {
 }
 
 func convertToRPN(tokens []string) []string {
-	signs := NewStack[string]()
+	var signs = NewStack[string]()
 	var result []string
 	var i = 0
 	var priority int
 	var prevPriority = 0
-	prevPrevPriority := 0
+	var prevPrevPriority = 0
 	for i < len(tokens) {
 		priority = getPriority(tokens[i])
 		switch priority {
@@ -116,15 +116,11 @@ func convertToRPN(tokens []string) []string {
 			signs.Push(tokens[i])
 		case 3:
 			signs.Push(tokens[i])
-			prevPriority = 3
 		case 4:
-
 			prevPrevPriority = getPriority(signs.Peek())
 			fmt.Println(prevPrevPriority)
 			for signs.Peek() != "(" && !signs.IsEmpty() {
-
 				result = append(result, signs.Pop())
-
 			}
 			signs.Pop()
 		case 5:
@@ -137,11 +133,9 @@ func convertToRPN(tokens []string) []string {
 		fmt.Println(signs)
 		fmt.Println(result)
 	}
-
 	for signs.Size() > 0 {
 		result = append(result, signs.Pop())
 	}
 	fmt.Println(result)
-
 	return result
 }
