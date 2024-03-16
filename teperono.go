@@ -3,14 +3,35 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"net/http"
 	"os"
 	"regexp"
 	"strconv"
 	"strings"
+	"text/template"
 	"unicode"
 )
 
+type solver struct{}
+
+func (m *solver) Return() string {
+	return "123"
+}
+
 func main() {
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		// http.ServeFile(w, r, "index.html")
+		tmpl := template.Must(template.ParseFiles("index.html"))
+		name := r.FormValue("nums")
+		fmt.Fprintln(w, "Выражение: ", name)
+		fmt.Fprintln(w, "Обратная запись:", kalDestroyer3000V2UnichoshitelGovnaPlusTerminatorFekaliy(convertToRPN(getTokens(kalDestroyer3000(name)))))
+		result, _ := evaluateRPN(kalDestroyer3000V2UnichoshitelGovnaPlusTerminatorFekaliy(convertToRPN(getTokens(kalDestroyer3000(name)))))
+		fmt.Fprintln(w, "Ответ:", result)
+		count := struct{ Count float64 }{Count: result}
+		tmpl.Execute(w, count)
+	})
+
 	fmt.Println("YADEBIL")
 	l1 := getLinesFromFile("input.txt")
 	file, _ := os.OpenFile("output.txt", os.O_RDWR|os.O_TRUNC, 0600)
@@ -25,12 +46,14 @@ func main() {
 		if err != nil {
 			fmt.Println(err)
 		}
+
 		fmt.Println("Result:", result)
 		result1 := strconv.FormatFloat(result, 'f', -1, 64)
 		file.WriteString(result1)
 		file.WriteString("\n")
 	}
-
+	fmt.Println("Server is listening...")
+	http.ListenAndServe(":8081", nil)
 }
 
 func getLinesFromFile(adress string) []string {

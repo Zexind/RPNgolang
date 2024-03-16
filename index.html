@@ -1,0 +1,18 @@
+{{block "solver" .}}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Website</title>
+</head>
+<body>
+  <form action="/" method="GET">
+    <label for ="nums">Введите выражение:</label>
+    <input  placeholder="1+2+3" type="text" name = "nums">
+  </form>
+  <form action="/" method="get">
+    <label for = "result" >Вывод: </label>
+    <div type="text" id = "result">{{.Result}}</div>
+  </form>
+</body>
+</html>
+{{end}}
