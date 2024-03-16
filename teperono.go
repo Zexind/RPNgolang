@@ -18,18 +18,20 @@ func (m *solver) Return() string {
 	return "123"
 }
 
+type Output struct {
+	Result  float64
+	Reverse []string
+}
+
 func main() {
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		// http.ServeFile(w, r, "index.html")
 		tmpl := template.Must(template.ParseFiles("index.html"))
 		name := r.FormValue("nums")
-		fmt.Fprintln(w, "Выражение: ", name)
-		fmt.Fprintln(w, "Обратная запись:", kalDestroyer3000V2UnichoshitelGovnaPlusTerminatorFekaliy(convertToRPN(getTokens(kalDestroyer3000(name)))))
-		result, _ := evaluateRPN(kalDestroyer3000V2UnichoshitelGovnaPlusTerminatorFekaliy(convertToRPN(getTokens(kalDestroyer3000(name)))))
-		fmt.Fprintln(w, "Ответ:", result)
-		count := struct{ Count float64 }{Count: result}
-		tmpl.Execute(w, count)
+		result1, _ := evaluateRPN(kalDestroyer3000V2UnichoshitelGovnaPlusTerminatorFekaliy(convertToRPN(getTokens(kalDestroyer3000(name)))))
+		result := Output{Result: result1, Reverse: kalDestroyer3000V2UnichoshitelGovnaPlusTerminatorFekaliy(convertToRPN(getTokens(kalDestroyer3000(name))))}
+		tmpl.Execute(w, result)
 	})
 
 	fmt.Println("YADEBIL")
