@@ -9,9 +9,7 @@ import (
 )
 
 func evaluateRPN(tokens []string) (float64, error) {
-
 	stack := make([]float64, 0)
-
 	for _, token := range tokens {
 		if num, err := strconv.ParseFloat(token, 32); err == nil {
 			stack = append(stack, num)
@@ -19,14 +17,10 @@ func evaluateRPN(tokens []string) (float64, error) {
 			if len(stack) < 2 {
 				return 0, fmt.Errorf("invalid RPN expression")
 			}
-
-			// Pop the last two operands
 			op2 := stack[len(stack)-1]
 			stack = stack[:len(stack)-1]
 			op1 := stack[len(stack)-1]
 			stack = stack[:len(stack)-1]
-
-			// Perform the operation based on the operator
 			switch token {
 			case "+":
 				stack = append(stack, op1+op2)
@@ -38,28 +32,22 @@ func evaluateRPN(tokens []string) (float64, error) {
 				if op2 == 0 {
 					return 0, fmt.Errorf("division by zero")
 				}
-
 				stack = append(stack, op1/op2)
 			case "^":
 				stack = append(stack, math.Pow(op1, op2))
-
 			default:
 				return 0, fmt.Errorf("unknown operator: %s", token)
 			}
 			fmt.Println(stack)
 		}
-
 	}
-
 	if len(stack) != 1 {
 		return 0, fmt.Errorf("invalid RPN expression")
 	}
-
 	return stack[0], nil
 }
 
 func getPriority(token string) int {
-
 	m := map[string]int{
 		"+": 1,
 		"-": 1,
@@ -69,7 +57,6 @@ func getPriority(token string) int {
 		")": 4,
 		"(": 5,
 	}
-
 	n := m[token]
 	return n
 }
@@ -77,10 +64,7 @@ func getPriority(token string) int {
 func convertToRPN(tokens []string) []string {
 	var signs = NewStack[string]()
 	var result []string
-	var i = 0
-	var priority int
-	var prevPriority = 0
-	var prevPrevPriority = 0
+	var i, priority, prevPriority, prevPrevPriority int
 	for i < len(tokens) {
 		priority = getPriority(tokens[i])
 		switch priority {
@@ -130,12 +114,9 @@ func convertToRPN(tokens []string) []string {
 			prevPriority = priority
 		}
 		i++
-		fmt.Println(signs)
-		fmt.Println(result)
 	}
 	for signs.Size() > 0 {
 		result = append(result, signs.Pop())
 	}
-	fmt.Println(result)
 	return result
 }
