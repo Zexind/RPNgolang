@@ -38,7 +38,6 @@ func evaluateRPN(tokens []string) (float64, error) {
 			default:
 				return 0, fmt.Errorf("unknown operator: %s", token)
 			}
-			fmt.Println(stack)
 		}
 	}
 	if len(stack) != 1 {
@@ -80,7 +79,6 @@ func convertToRPN(tokens []string) []string {
 				}
 			}
 			prevPrevPriority = getPriority(signs.Peek())
-			fmt.Println(prevPrevPriority)
 			if prevPrevPriority == 1 {
 				result = append(result, signs.Pop())
 			}
@@ -90,11 +88,10 @@ func convertToRPN(tokens []string) []string {
 			signs.Push(tokens[i])
 		case 2:
 			prevPrevPriority = getPriority(signs.Peek())
-			fmt.Println(prevPrevPriority)
 			if prevPrevPriority == 1 {
 				signs.Push(tokens[i])
 				break
-			} else if prevPriority >= 2 {
+			} else if prevPrevPriority >= 2 {
 				result = append(result, signs.Pop())
 			}
 			signs.Push(tokens[i])
@@ -102,7 +99,6 @@ func convertToRPN(tokens []string) []string {
 			signs.Push(tokens[i])
 		case 4:
 			prevPrevPriority = getPriority(signs.Peek())
-			fmt.Println(prevPrevPriority)
 			for signs.Peek() != "(" && !signs.IsEmpty() {
 				result = append(result, signs.Pop())
 			}
